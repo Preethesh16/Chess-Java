@@ -15,4 +15,8 @@ public class King extends Piece {
 		}
 	}
 
+	public boolean canMove(int targetCol,int targetRow) {
+		return false;
+	}
+	
 }

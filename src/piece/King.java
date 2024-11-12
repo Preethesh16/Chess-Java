@@ -16,6 +16,15 @@ public class King extends Piece {
 	}
 
 	public boolean canMove(int targetCol,int targetRow) {
+		if(isWithinBoard(targetCol,targetRow)) {
+			//for horizontal and vertical squares for the king //second for diagonals
+			if(Math.abs(targetCol-preCol) + Math.abs(targetRow - preRow)==1 || Math.abs(targetCol-preCol) * Math.abs(targetRow - preRow)==1) 
+			{
+				if(isValidSquare(targetCol,targetRow)) {
+				return true;
+				}
+			}
+		}
 		return false;
 	}
 	

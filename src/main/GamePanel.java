@@ -69,7 +69,7 @@ public class GamePanel extends JPanel implements Runnable{
 		pieces.add(new Rook(WHITE,0,7));
 		pieces.add(new Rook(WHITE,7,7));
 		pieces.add(new Queen(WHITE,3,7));
-		pieces.add(new King(WHITE,4,7));
+		pieces.add(new King(WHITE,4,4));
 		
 		//Black team
 				pieces.add(new Pawn(BLACK,0,1));
@@ -146,9 +146,13 @@ public class GamePanel extends JPanel implements Runnable{
 			if(activeP !=null)
 			{
 				if(validSquare) {
-				activeP.updatePosition();
+				//	move confirmed
+				//update the pieces list in the case a piece has been captured and removed during the simulation
+					copyPieces(simPieces,pieces);
+					activeP.updatePosition();
 				}
 				else {
+				copyPieces(pieces,simPieces);
 				activeP.resetPosition();
 				activeP=null;
 				}
@@ -159,8 +163,8 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		canMove =false;
 		validSquare =false;
-		
-		
+		//reset the pieces list in every loop so basically for restoring the removed pieces simulation
+		copyPieces(pieces,simPieces);
 		//If  a piece is being held,update its position
 		activeP.x=mouse.x- Board.HALF_SQUARE_SIZE;
 		activeP.y=mouse.y- Board.HALF_SQUARE_SIZE;
@@ -171,6 +175,11 @@ public class GamePanel extends JPanel implements Runnable{
 	if(activeP.canMove(activeP.col, activeP.row))
 			{
 		canMove = true;
+		
+		//piece capture hone per opponent ke pieces ko nikala dho
+		if(activeP.hittingP !=null) {
+			simPieces.remove(activeP.hittingP.getIndex());
+		}
 		validSquare= true;
 			}
 		

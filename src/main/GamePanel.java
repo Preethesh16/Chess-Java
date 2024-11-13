@@ -3,6 +3,8 @@ package main;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+
 import javax.swing.JPanel;
 
 import piece.Bishop;
@@ -15,6 +17,7 @@ import piece.Rook;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -29,6 +32,7 @@ public class GamePanel extends JPanel implements Runnable{
 	public static ArrayList<Piece> pieces = new ArrayList<>();
 	public static ArrayList<Piece> simPieces =new ArrayList<>();
 	Piece activeP;
+	public static Piece castlingP;
 	
 	//COLOR
 	public static final int WHITE =0;
@@ -150,8 +154,11 @@ public class GamePanel extends JPanel implements Runnable{
 				//update the pieces list in the case a piece has been captured and removed during the simulation
 					copyPieces(simPieces,pieces);
 					activeP.updatePosition();
+					
+					changePlayer();
 				}
 				else {
+					//move is not valid so it will reset everything
 				copyPieces(pieces,simPieces);
 				activeP.resetPosition();
 				activeP=null;
@@ -184,6 +191,17 @@ public class GamePanel extends JPanel implements Runnable{
 			}
 		
 	}
+	private void changePlayer()
+	{
+		if(currentColor==WHITE)
+		{
+			currentColor=BLACK;
+		}
+		else {
+			currentColor=WHITE;
+		}
+		activeP=null;
+	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
@@ -207,5 +225,17 @@ public class GamePanel extends JPanel implements Runnable{
 			//Draw active piece in the end so it wont be hidden by the board or the color square
 			activeP.draw(g2);
 		}
+	
+	//Status Messages
+	g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+	g2.setFont(new Font("Book Antiqua",Font.PLAIN,40));
+	g2.setColor(Color.white);
+	if(currentColor==WHITE) {
+		g2.drawString("White's Turn",840,550);
+	}else
+	{
+		g2.drawString("Black's Turn", 840, 250);
+	}
+	
 	}
 }

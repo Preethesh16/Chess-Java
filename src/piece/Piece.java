@@ -16,6 +16,7 @@ public class Piece {
 	public int col,row,preCol, preRow;
 	public int color;
 	public Piece hittingP;
+	public boolean moved;//for castle n pawn movement
 	
 	public Piece(int color,int col,int row) {
 		this.color=color;
@@ -66,6 +67,7 @@ public class Piece {
 		y=getY(row);
 		preCol = getCol(x);
 		preRow = getRow(y);
+		moved =true;
 	}
 	public void resetPosition() {
 		

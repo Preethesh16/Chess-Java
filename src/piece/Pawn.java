@@ -33,8 +33,20 @@ public class Pawn extends Piece {
 			{
 				return true;
 			}
+			//2 squares movement
+			if(targetCol ==preCol && targetRow ==preRow + moveValue*2 && hittingP ==null && moved == false && 
+					pieceIsOnStraightLine(targetCol,targetRow)==false)
+			{
+				return true;
+			}
+			//piece capture
+			if(Math.abs(targetCol-preCol)==1 && targetRow == preRow + moveValue && hittingP !=null &&
+					hittingP.color !=color)
+			{
+				return true;
+			}
 		}
-		return false;
+		return false; 
 	}
 	
 }
